@@ -15,7 +15,6 @@ cout<<"Enter number of coulmns :>>";
 cin>>coulmns;
 int a[rows][coulmns],b[rows][coulmns],mul[rows][coulmns];
 if(rows==coulmns){
-        cout<<"Enter first matrix entries=\n";    
         for(i=0;i<rows;i++)    
         {    
         for(j=0;j<coulmns;j++)    
@@ -24,7 +23,6 @@ if(rows==coulmns){
         a[i][j] = 5;  
         }    
         }    
-        cout<<"Enter second matrix entries=\n";    
         for(i=0;i<rows;i++)    
         {    
         for(j=0;j<coulmns;j++)    
@@ -32,12 +30,11 @@ if(rows==coulmns){
         //Generating random numbers from 1 to 100  
         b[i][j] = 5;    
         }    
-        }    
+        }
+        mul_time.Print();    
+        int number_of_threads = 32;
         mul_time.Start();   
-        int number_of_threads = 4;
-        #pragma omp parallel private(i,j,k) shared(mul,a,b) num_threads(number_of_threads)
-        {
-        #pragma omp for  schedule(static)
+        #pragma omp parallel for private(i,j,k) shared(mul,a,b) num_threads(number_of_threads)
         for(i=0;i<rows;i++)    
             {    
                    for(j=0;j<coulmns;j++)    
@@ -49,46 +46,8 @@ if(rows==coulmns){
                 }    
                 }
             }
-
-        }
         mul_time.Stop();
         mul_time.Print();    
-        cout << "Matrix 1\n";   
-        for(i=0;i<rows;i++)    
-        {    
-        for(j=0;j<coulmns;j++)    
-        {
-            cout<<a[i][j]<<" ";    
-
-        }
-            cout<<"\n"; 
-
-        }    
-
-        cout << "Matrix 2\n";   
-        for(i=0;i<rows;i++)    
-        {    
-        for(j=0;j<coulmns;j++)    
-        {
-            cout<<b[i][j]<<" ";    
-
-        }
-            cout<<"\n"; 
-
-        }  
-        //for printing result 
-        cout << "Final Result\n";   
-        for(i=0;i<rows;i++)    
-        {    
-        for(j=0;j<coulmns;j++)    
-        {
-            cout<<mul[i][j]<<" ";    
-
-        }
-            cout<<"\n"; 
-
-        }
-        mul_time.Print();        
         return 0;   
         
     }    
